@@ -325,6 +325,8 @@
     <ClInclude Include="src\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\LightSrc.shader" />
+    <None Include="res\shaders\Scene.shader" />
     <None Include="res\shaders\Shaders.shader" />
     <None Include="src\vendor\glm\detail\func_common.inl" />
     <None Include="src\vendor\glm\detail\func_common_simd.inl" />

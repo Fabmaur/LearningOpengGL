@@ -13,6 +13,9 @@
 #include "vendor/glm/gtc/matrix_transform.hpp"
 
 
+
+glm::vec3 lightPos(1.0f, 1.0f, 1.2f);
+
 int main()
 {
 
@@ -29,7 +32,7 @@ int main()
 
 	static constexpr float SCREENWIDTH = 960.0f;
 	static constexpr float SCREENHEIGHT = 540.0f;
-	window = glfwCreateWindow(SCREENWIDTH, SCREENHEIGHT, "Hello World", NULL, NULL);
+	window = glfwCreateWindow((int)SCREENWIDTH, (int)SCREENHEIGHT, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -46,60 +49,55 @@ int main()
 	/* Create a vertex and index arrays */
 	{
 		float vertices[] = {
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
 
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+			-0.5f, -0.5f,  0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
 
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
 
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
 
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f,  0.5f,
+			0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f, -0.5f,
 
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-			0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-			-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-			-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+			-0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f, -0.5f,
+			0.5f,  0.5f,  0.5f,
+			0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
 		};
-		unsigned int indices[] = {
-			// Vertices bottom left to bottom right (anti-clockwise)
-			0, 1, 2,
-			0, 3, 2
 
-		};
 		
 		VertexBuffer VBO(vertices, sizeof(vertices));
 
 		VBLayout VBL;
-		VBL.Set<float>(3);
-		VBL.Set<float>(2);
+		VBL.Set<float>(3.0f);
+		
 
 
 		VertexArray VAO;
@@ -107,19 +105,22 @@ int main()
 		VAO.Bind();
 
 
-		IndexBuffer IBO(indices, sizeof(indices) / sizeof(unsigned int));
 
 		/* Generate shader program*/
-
+		glm::vec3 lightColour(0.33f, 0.42f, 0.18f);
+		glm::vec3 toyColour(1.0f, 0.5f, 0.31f);
+		glm::vec3 result = lightColour * toyColour; // = (0.33f, 0.21f, 0.06f);
+		Shader lightShader("res/shaders/LightSrc.shader");
+		Shader cubeShader("res/shaders/Scene.shader");
+		
 		glm::mat4 view(1.0f); //Initalizing view matrix as identity
 		// note that we're translating the scene in the reverse direction of where we want to move
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::lookAt(glm::vec3(5.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -3.0f));
 
 		glm::mat4 proj(1.0f);
 		proj = glm::perspective(glm::radians(45.0f), SCREENWIDTH / SCREENHEIGHT, 0.1f, 100.0f);
 
-		Shader Shader("res/shaders/Shaders.shader");
-		Shader.Bind();
+		glm::mat4 identity(1.0f);
 
 		Renderer Screen;
 		Screen.Blend(false);
@@ -136,8 +137,35 @@ int main()
 			Screen.Clear();
 
 			/* Render here */
+			
+			glm::mat4 model(1.0f);
+			model = glm::translate(model, glm::vec3(-1.0f, -1.0f, -1.2f));
+			
+			glm::mat4 u_MVP = proj * view * model;
 
+			cubeShader.Bind();
+			cubeShader.SetUniform4f("colour", 0.33f, 0.21f, 0.06f, 1.0f);
+			cubeShader.SetUniformMat4f("u_MVP", u_MVP);
 	
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			
+
+
+			model = identity;
+			model = glm::translate(model, lightPos);
+			model = glm::scale(model, glm::vec3(0.2f));
+			u_MVP = proj * view * model;
+
+			
+
+			lightShader.SetUniform4f("lightColour", 1.0f, 1.0f, 1.0f, 1.0f);
+			lightShader.SetUniformMat4f("u_MVP", u_MVP);
+			
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			lightShader.Unbind();
+
+			
 			/* Swap front and back buffers */
 			glfwSwapBuffers(window);
 

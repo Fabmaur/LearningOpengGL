@@ -862,6 +862,8 @@
     <None Include="res\shaders\Shaders.shader">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="res\shaders\LightSrc.shader" />
+    <None Include="res\shaders\Scene.shader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\container.png">
